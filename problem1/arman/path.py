@@ -9,7 +9,6 @@ def get_info(path):
 
     for dirPath, dirNames, fileNames in os.walk(path):
         steps = dirPath.split("/")
-        steps.pop(0)
         depths = len(steps)
         list_for_path.append(dirPath)
         list_for_size.append(os.path.getsize(dirPath))
@@ -18,6 +17,8 @@ def get_info(path):
     list_for_path.sort()
     list_for_size.sort()
 
+
+if __name__ == "__main__":
     while True:
         list_input = input("if you want sort by path press 1 if by size press 2 if by depths press 3")
         if list_input == "1":
@@ -28,7 +29,4 @@ def get_info(path):
             print(f"The maximum depths of path: {max(list_for_depth)}")
         else:
             break
-
-
-if __name__ == "__main__":
     get_info(os.getcwd())
