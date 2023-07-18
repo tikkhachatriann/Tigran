@@ -1,3 +1,4 @@
+import json
 class AddressBook:
 
     def __init__(self):
@@ -9,17 +10,24 @@ class AddressBook:
 
 def main():
     book = AddressBook()
+
     while True:
         name = input('type your name: ')
         sur_name = input('type your sur_name : ')
         phone_number = input('type your phone_number: ')
         exit = input("if you want to close addressBook please type 'exit' if not type '+'")
+
         book.create_user(phone_number, name, sur_name)
+
         if exit == "exit":
             print(book.address_book)
             break
         else:
             print(book.address_book)
+
+    json_obj = json.dumps(book.address_book)
+    with open("new_file.json", "w") as new_file:
+        new_file.write(json_obj)
 
 
 if __name__ == "__main__":
