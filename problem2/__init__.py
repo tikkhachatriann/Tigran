@@ -2,19 +2,23 @@ import json
 
 
 class AddressBook:
+    
     def __init__(self):
         self.dict_address_book = {}
 
+    # Creating AddressBook list
     def create_account(self, phone_number: str, name: str, surname: str):
         if phone_number not in self.dict_address_book.keys():
             self.dict_address_book[phone_number] = {name: surname}
         else:
             raise KeyError("The phoneNumbers must be unique")
 
+    # updating json files with new numbers
     def json_updater(self):
         with open("new_file.json", "w") as new_file:
             json.dump(self.dict_address_book, new_file, indent=5)
 
+    # reading json file
     def json_reader(self):
         with open("new_file.json", "r") as new_file:
             data = json.load(new_file)
