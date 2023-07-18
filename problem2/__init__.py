@@ -1,33 +1,49 @@
 import json
+
+
 class AddressBook:
-
     def __init__(self):
-        self.address_book = {}
+        self.dict_address_book = {}
 
-    def create_user(self, phone_number, name,surname):
-        self.address_book[phone_number] = {name: surname}
+    def create_account(self, phone_number: str, name: str, surname: str):
+        if phone_number not in self.dict_address_book.keys():
+            self.dict_address_book[phone_number] = {name: surname}
+        else:
+            raise KeyError("The phoneNumbers must be unique")
+
+    def json_updater(self):
+        with open("new_file.json", "w") as new_file:
+            json.dump(self.dict_address_book, new_file, indent=5)
+
+    def json_reader(self):
+        with open("new_file.json", "r") as new_file:
+            data = json.load(new_file)
+            print(data)
 
 
 def main():
     book = AddressBook()
 
-    while True:
-        name = input('type your name: ')
-        sur_name = input('type your sur_name : ')
-        phone_number = input('type your phone_number: ')
-        exit = input("if you want to close addressBook please type 'exit' if not type '+'")
+    choosing = input("If you want to update addressBook press 1 if you want to see addressBook press 2")
 
-        book.create_user(phone_number, name, sur_name)
+    if choosing == "1":
+        while True:
+            name = input('type your name: ')
+            sur_name = input('type your sur_name : ')
+            phone_number = input('type your phone_number: ')
+            exit_ = input("if you want to close addressBook please type 'exit' if not type '+'")
 
-        if exit == "exit":
-            print(book.address_book)
-            break
-        else:
-            print(book.address_book)
+            if exit_ == "exit":
+                book.create_account(phone_number, name, sur_name)
+                print(book.dict_address_book)
+                book.json_updater()
+                break
+            else:
+                book.create_account(phone_number, name, sur_name)
+                print(book.dict_address_book)
 
-    json_obj = json.dumps(book.address_book)
-    with open("new_file.json", "w") as new_file:
-        new_file.write(json_obj)
+    elif choosing == "2":
+        book.json_reader()
 
 
 if __name__ == "__main__":
