@@ -16,9 +16,7 @@ def get_info(path):
 
     list_for_path.sort()
     list_for_size.sort()
-
-
-if __name__ == "__main__":
+    
     while True:
         list_input = input("if you want sort by path press 1 if by size press 2 if by depths press 3")
         if list_input == "1":
@@ -29,4 +27,9 @@ if __name__ == "__main__":
             print(f"The maximum depths of path: {max(list_for_depth)}")
         else:
             break
+    
+    return list_for_path, list_for_size,list_for_size
+
+
+if __name__ == "__main__":
     get_info(os.getcwd())
