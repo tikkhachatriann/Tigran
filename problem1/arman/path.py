@@ -1,43 +1,34 @@
-import armen
-import tiko
-import inspect
 import os
 
 
-def get_path() -> list:
-     list_for_path = []
-     list_for_path.append(inspect.getfile(armen))
-     list_for_path.append(inspect.getfile(tiko))
-     list_for_path.sort()
-     return list_for_path
-
-
-def get_size() -> list:
-    list_for_size = []
-    list_for_size.append(os.path.getsize(inspect.getfile(armen)))
-    list_for_size.append(os.path.getsize(inspect.getfile(tiko)))
-    list_for_size.sort()
-    return list_for_size
-
-
 def get_info(path):
+
+    list_for_path = []
+    list_for_size = []
     list_for_depth = []
+
     for dirPath, dirNames, fileNames in os.walk(path):
         steps = dirPath.split("/")
         steps.pop(0)
         depths = len(steps)
+        list_for_path.append(dirPath)
+        list_for_size.append(os.path.getsize(dirPath))
         list_for_depth.append(depths)
-        print("depths", depths)
-        print("Directory Path: ", dirPath)
-        print("Directories = ", dirNames)
-        print("Files = ", fileNames)
-        print('-' * 10)
-    print(f"The maximum depths of path: {max(list_for_depth)}")
+
+    list_for_path.sort()
+    list_for_size.sort()
+
+    while True:
+        list_input = input("if you want sort by path press 1 if by size press 2 if by depths press 3")
+        if list_input == "1":
+            print(f"The list of path: {list_for_path}")
+        elif list_input == "2":
+            print(f"The list size of path: {list_for_size}")
+        elif list_input == "3":
+            print(f"The maximum depths of path: {max(list_for_depth)}")
+        else:
+            break
 
 
 if __name__ == "__main__":
-    print(
-        f" list for paths {get_path()} \n",
-        f"list for sizes {get_size()} \n "
-    )
     get_info(os.getcwd())
