@@ -1,7 +1,7 @@
 
 arm_special_num = {
-        "0": "զրո",
-        "1": "մեկ",
+        0: "զրո",
+        1: "մեկ",
 }
 arm_nums = {
         0: "",
@@ -47,13 +47,13 @@ def get_text_for_ten(list_final):
 def checking_for_hundred(list_digits):
     if len(list_digits) == 4 and list_digits[1] == 0:
         return ""
-    return {arm_nums[100]}
+    return arm_nums[100]
 
 
 # checking last character
 def checking_last_char(list_for_digits):
     if list_for_digits[-1] == 1:
-        return arm_special_num['1']
+        return arm_special_num[1]
     else:
         return arm_nums[list_for_digits[-1]]
 
@@ -92,6 +92,7 @@ def get_final_result(list_of_digits):
 
 if __name__ == "__main__":
     number = input("input number")
+
     try:
         number = int(number)
         if number == 1000:
@@ -101,7 +102,7 @@ if __name__ == "__main__":
         elif number == 10:
             print(arm_nums[10])
         elif number == 0:
-            print(arm_special_num["0"])
+            print(arm_special_num[1])
         else:
             print(get_text_for_ten(get_final_result(get_checked_list(number))))
 
