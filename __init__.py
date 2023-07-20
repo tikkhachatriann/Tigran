@@ -1,9 +1,11 @@
 
+arm_special_num = {
+        "0": "զրո",
+        "1": "մեկ",
+}
 arm_nums = {
         0: "",
-        "0": "զրո",
         1: "",
-        "1": "մեկ",
         2: "երկու",
         3: "երեք",
         4: "չորս",
@@ -16,8 +18,8 @@ arm_nums = {
         20: "քսան",
         30: "եռեսուն",
         40: "քառասուն",
-        50: "հիտսուն",
-        60: "վատսուն",
+        50: "հիթսուն",
+        60: "վաթսուն",
         70: "յոթանասուն",
         80: "ութսուն",
         90: "իննսուն",
@@ -34,10 +36,24 @@ def get_checked_list(num):
     return list_of_digits
 
 
+def get_text_for_ten(list_final):
+    text = "".join(list_final)
+    if "տաս" in text:
+        new_text = text.replace("տաս", "տասն")
+        return new_text
+    return text
+
+
+def checking_for_hundred(list_digits):
+    if len(list_digits) == 4 and list_digits[1] == 0:
+        return ""
+    return {arm_nums[100]}
+
+
 # checking last character
 def checking_last_char(list_for_digits):
     if list_for_digits[-1] == 1:
-        return arm_nums['1']
+        return arm_special_num['1']
     else:
         return arm_nums[list_for_digits[-1]]
 
@@ -48,10 +64,10 @@ def get_final_result(list_of_digits):
 
     if len(list_of_digits) == 4:
         final_list.append(
-            f"{arm_nums[list_of_digits[0]]} "
-            f"{arm_nums[1000]} "
-            f"{arm_nums[list_of_digits[1]]} {arm_nums[100]}"
-            f" {arm_nums[list_of_digits[2]]}"
+            f"{arm_nums[list_of_digits[0]]} {arm_nums[1000]} "
+            f"{arm_nums[list_of_digits[1]]} "
+            f"{checking_for_hundred(list_of_digits)} "
+            f"{arm_nums[list_of_digits[2]]}"
             f"{checking_last_char(list_of_digits)}"
             )
 
@@ -74,14 +90,6 @@ def get_final_result(list_of_digits):
     return final_list
 
 
-def get_text_for_ten(list_final):
-    text = "".join(list_final)
-    if "տաս" in text:
-        new_text = text.replace("տաս", "տասն")
-        return new_text
-    return text
-
-
 if __name__ == "__main__":
     number = input("input number")
     try:
@@ -93,7 +101,7 @@ if __name__ == "__main__":
         elif number == 10:
             print(arm_nums[10])
         elif number == 0:
-            print(arm_nums["0"])
+            print(arm_special_num["0"])
         else:
             print(get_text_for_ten(get_final_result(get_checked_list(number))))
 
