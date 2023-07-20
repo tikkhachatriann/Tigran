@@ -2,7 +2,7 @@ import json
 
 
 class AddressBook:
-    
+
     def __init__(self):
         self.dict_address_book = {}
 
@@ -13,13 +13,13 @@ class AddressBook:
         else:
             raise KeyError("The phoneNumbers must be unique")
 
-    # updating json files with new numbers
-    def json_updater(self):
+    # updating json files after update numbers
+    def update_user(self):
         with open("new_file.json", "w") as new_file:
-            json.dump(self.dict_address_book, new_file, indent=5)
+            json.dump(self.dict_address_book, new_file, indent=3)
 
     # reading json file
-    def json_reader(self):
+    def address_book_reader(self):
         with open("new_file.json", "r") as new_file:
             data = json.load(new_file)
             print(data)
@@ -28,26 +28,31 @@ class AddressBook:
 def main():
     book = AddressBook()
 
-    choosing = input("If you want to update addressBook press 1 if you want to see addressBook press 2")
+    choosing = input(
+        "If you want to update addressBook press 1 if "
+        "you want to see addressBook press 2"
+    )
 
     if choosing == "1":
         while True:
             name = input('type your name: ')
             sur_name = input('type your sur_name : ')
             phone_number = input('type your phone_number: ')
-            exit_ = input("if you want to close addressBook please type 'exit' if not type '+'")
+            exit_input = input(
+                "if you want to close addressBook please type 'exit'"
+                " if not type '+'")
 
-            if exit_ == "exit":
+            if exit_input == "exit":
                 book.create_account(phone_number, name, sur_name)
                 print(book.dict_address_book)
-                book.json_updater()
+                book.update_user()
                 break
             else:
                 book.create_account(phone_number, name, sur_name)
                 print(book.dict_address_book)
 
     elif choosing == "2":
-        book.json_reader()
+        book.address_book_reader()
 
 
 if __name__ == "__main__":
