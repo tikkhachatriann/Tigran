@@ -2,179 +2,169 @@
 arm_special_num = "զրո", "մեկ",
 
 arm_nums = {
-        0: "",
-        1: "",
-        2: "երկու",
-        3: "երեք",
-        4: "չորս",
-        5: "հինգ",
-        6: "վեց",
-        7: "յոթ",
-        8: "ութ",
-        9: "ինն",
-        10: "տաս",
-        20: "քսան",
-        30: "երեսուն",
-        40: "քառասուն",
-        50: "հիթսուն",
-        60: "վաթսուն",
-        70: "յոթանասուն",
-        80: "ութսուն",
-        90: "իննսուն",
-        100: "հարյուր",
-        1000: "հազար",
-        1000000: "միլիոն"
+        '0': "",
+        '1': "",
+        '2': "երկու",
+        '3': "երեք",
+        '4': "չորս",
+        '5': "հինգ",
+        '6': "վեց",
+        '7': "յոթ",
+        '8': "ութ",
+        '9': "ինն",
+        '10': "տաս",
+        '20': "քսան",
+        '30': "երեսուն",
+        '40': "քառասուն",
+        '50': "հիթսուն",
+        '60': "վաթսուն",
+        '70': "յոթանասուն",
+        '80': "ութսուն",
+        '90': "իննսուն",
+        '100': "հարյուր",
+        '1000': "հազար",
+        '1000000': "միլիոն"
 }
 
 
-# changing length of the number
-def get_checked_list(num):
-    list_of_digits = [int(x) for x in str(num)]
-    if len(list_of_digits) > 1:
-        list_of_digits[-2] = int(str(num)[-2] + "0")
-    if len(list_of_digits) == 5:
-        list_of_digits[0] = int(str(num)[0] + "0")
-
-    return list_of_digits
+def check_dig(number):
+    return [x for x in number]
 
 
-def get_text_for_ten(list_final):
-    text = "".join(list_final)
-    if "տաս" in text:
-        new_text = text.replace("տաս", "տասն")
-        return new_text
-    return text
-
-
-def checking_for_hundred(list_digits):
-    if list_digits[-3] == 0:
-        return ""
-    elif list_digits[-3] == 1:
-        return arm_nums[100]
-    else:
-        return f"{arm_nums[list_digits[-3]]} {arm_nums[100]}"
-
-
-def checking_for_thousand(list_digits):
-    if list_digits[-4] == 0:
-        return arm_nums[1000]
-    elif len(list_digits) > 4 and list_digits[-4] == 1:
-        return f"{arm_special_num[1]} {arm_nums[1000]}"
-    else:
-        return f"{arm_nums[list_digits[-4]]} {arm_nums[1000]}"
-
-
-def checking_thousand_hundred(list_digits):
-    if list_digits[-6] == 1:
-        return f"{arm_nums[100]} "\
-                f"{arm_nums[int(str(list_digits[1]) + '0')]}" \
-                f"{checking_for_thousand(list_digits)}"
-
-    return f"{arm_nums[list_digits[-6]]}"\
-           f"{checking_for_hundred(list_digits)} "\
-           f"{arm_nums[int(str(list_digits[1]) + '0')]}" \
-           f"{checking_for_thousand(list_digits)}"
-
-
-def checking_million(list_digits):
-    if list_digits[0] == 1:
-        return f"{arm_nums[list_digits[0]]}" \
-               f"{arm_nums[1000000]} " \
-               f"{checking_for_hundred(list_digits[1:4])} " \
-               f"{arm_nums[int(str(list_digits[2]) + '0')]}"\
-               f"{checking_for_thousand(list_digits)}"
-               #f"{checking_thousand_hundred(list_digits)}"
-
-
-# checking last character
-def checking_last_char(list_for_digits):
-    if list_for_digits[-1] == 1:
+def checking_last_char(digits_list):
+    if digits_list[-1] == "1":
         return arm_special_num[1]
     else:
-        return arm_nums[list_for_digits[-1]]
+        return arm_nums[digits_list[-1]]
 
 
-# changing number to text
-def get_final_result(list_of_digits):
+def checking_second_char(digits_list):
+    if digits_list[1] == "1":
+        return arm_special_num[1]
+    else:
+        return arm_nums[digits_list[1]]
+
+
+def check_teen_end(digits_list):
+    if "10" < "".join(digits_list[-2:]) < "20":
+        return f"{arm_nums[digits_list[-2] + '0']}ն" \
+               f"{checking_last_char(digits_list)}"
+    elif digits_list[-2] == "0":
+        return f"{checking_last_char(digits_list)}"
+    else:
+        return f"{arm_nums[digits_list[-2] + '0']}" \
+               f"{checking_last_char(digits_list)}"
+
+
+def check_teen_start(digits_list):
+    if "10" < "".join(digits_list[-5:-3]) < "20":
+        return f"{arm_nums[digits_list[-5] + '0']}ն"\
+               f"{checking_second_char(digits_list)}"
+
+    elif digits_list[-5] == "0":
+        return f"{arm_nums[digits_list[0]]}"
+    else:
+        return f"{arm_nums[digits_list[-5] + '0']}" \
+
+
+
+def check_hundred_end(digits_list):
+    if digits_list[-3] == "0":
+        return f"{check_teen_end(digits_list)}"
+    elif digits_list[-3] == "1":
+        return f"{arm_nums['100']} {check_teen_end(digits_list)}"
+    else:
+        return f"{arm_nums[digits_list[-3]]} {arm_nums['100']}" \
+               f" {check_teen_end(digits_list)}"
+
+
+def check_hundred_start(digits_list):
+    if digits_list[-6] == "0":
+        return f"{check_teen_start(digits_list)}"
+    elif digits_list[-6] == "1":
+        return f"{arm_nums['100']}" \
+               f" {check_teen_start(digits_list)}"
+    else:
+        return f"{arm_nums[digits_list[-6]]} {arm_nums['100']}" \
+               f" {check_teen_start(digits_list)}"
+
+
+
+def check_thousand(digits_list):
+    if digits_list[-4] == "0":
+        return f"{arm_nums['1000']} {check_hundred_end(digits_list)}"
+    # elif digits_list[-4] == "1":
+    #     return f"{arm_nums['1000']}" \
+    #            f" {check_hundred_end(digits_list)}"
+    else:
+        return f"{arm_nums[digits_list[-4]]} {arm_nums['1000']}" \
+               f" {check_hundred_end(digits_list)}"
+
+
+def check_ten_thousand(digits_list):
+    #if digits_list[-5] == "1":
+    return f"{check_teen_start(digits_list)} {check_thousand(digits_list)}"
+    # return f"{arm_nums[digits_list[0]]}" \
+    #        f"{check_teen_start(digits_list)} {check_thousand(digits_list)}"
+
+
+def check_hundred_thousand(digits_list):
+    if digits_list[-4] == "1" and digits_list[-5] != "1":
+        return f"{check_hundred_start(digits_list)}" \
+               f"{arm_special_num[1]} " \
+               f"{check_thousand(digits_list)}"
+
+    return f"{check_hundred_start(digits_list)} " \
+           f"{check_thousand(digits_list)}"
+
+
+def check_million(digits_list):
+    if digits_list[0] == "1":
+        return f"{arm_special_num[1]} {arm_nums['1000000']} "\
+               f"{check_hundred_start(digits_list) }"\
+               f"{check_thousand(digits_list)}"
+    return f"{arm_nums[digits_list[0]]} {arm_nums['1000000']} "\
+           f"{check_hundred_start(digits_list)}"\
+           f"{check_thousand(digits_list)}"
+
+
+def get_final_result(digits_list):
     final_list = []
 
-    if len(list_of_digits) == 7:
-        final_list.append(
-            f"{checking_million(list_of_digits)} " 
-            f"{checking_for_hundred(list_of_digits)} "
-            f"{arm_nums[list_of_digits[-2]]}"
-            f"{checking_last_char(list_of_digits)}"
-        )
+    if len(digits_list) == 7:
+        final_list.append(check_million(digits_list))
 
-    if len(list_of_digits) == 6:
-        final_list.append(
+    elif len(digits_list) == 6:
+        final_list.append(check_hundred_thousand(digits_list))
 
-            f"{checking_thousand_hundred(list_of_digits)} "
-            f"{checking_for_hundred(list_of_digits)} "
-            f"{arm_nums[list_of_digits[-2]]}"
-            f"{checking_last_char(list_of_digits)}"
-            )
+    elif len(digits_list) == 5:
+        final_list.append(check_ten_thousand(digits_list))
 
-    if len(list_of_digits) == 5:
-        final_list.append(
-            f"{arm_nums[list_of_digits[0]]}"
-            f"{checking_for_thousand(list_of_digits)} "
-            f"{checking_for_hundred(list_of_digits)} "
-            f" {arm_nums[list_of_digits[3]]}"
-            f"{checking_last_char(list_of_digits)}"
-            )
+    elif len(digits_list) == 4:
+        final_list.append(f"{check_thousand(digits_list)}")
 
-    if len(list_of_digits) == 4:
-        final_list.append(
-            f"{arm_nums[list_of_digits[0]]} "
-            f"{checking_for_thousand(list_of_digits)} "
-            f"{arm_nums[list_of_digits[1]]} "
-            f"{checking_for_hundred(list_of_digits)} "
-            f"{arm_nums[list_of_digits[2]]}"
-            f"{checking_last_char(list_of_digits)}"
-            )
+    elif len(digits_list) == 3:
+        final_list.append(check_hundred_end(digits_list))
 
-    elif len(list_of_digits) == 3:
-        final_list.append(
-            f"{arm_nums[list_of_digits[0]]} {arm_nums[100]}"
-            f" {arm_nums[list_of_digits[1]]}" 
-            f"{checking_last_char(list_of_digits)}"
-        )
+    elif len(digits_list) == 2:
+        final_list.append(check_teen_end(digits_list))
 
-    elif len(list_of_digits) == 2:
-        final_list.append(
-            f"{arm_nums[list_of_digits[0]]}"
-            f"{checking_last_char(list_of_digits)}"
-            )
-
-    elif len(list_of_digits) == 1:
-        final_list.append(f"{checking_last_char(list_of_digits)}")
+    elif len(digits_list) == 1:
+        final_list.append(f"{checking_last_char(digits_list)}")
 
     return final_list
 
 
 if __name__ == "__main__":
     number = input("input number")
+    print(get_final_result(check_dig(number)))
 
-    try:
-        number = int(number)
-        if number == 1000000:
-            print(arm_nums[1000000])
-        elif number == 100000:
-            print(arm_nums[100] + arm_nums[1000])
-        elif number == 10000:
-            print(arm_nums[10] + arm_nums[1000])
-        elif number == 1000:
-            print(arm_nums[1000])
-        elif number == 100:
-            print(arm_nums[100])
-        elif number == 10:
-            print(arm_nums[10])
-        elif number == 0:
-            print(arm_special_num[0])
-        else:
-            print(get_text_for_ten(get_final_result(get_checked_list(number))))
 
-    except ValueError:
-        print("You have to text number")
+
+
+
+
+
+
+
 
