@@ -56,7 +56,7 @@ def check_teen_end(digits_list):
         return f"{arm_nums[digits_list[-2] + '0']}ն" \
                f"{checking_last_char(digits_list)}"
     elif digits_list[-2] == "0":
-        return f"{checking_last_char(digits_list)}"
+        return f"{arm_nums[digits_list[-2]]}"
     else:
         return f"{arm_nums[digits_list[-2] + '0']}" \
                f"{checking_last_char(digits_list)}"
@@ -69,7 +69,7 @@ def check_teen_middle(digits_list):
                f"{checking_mid_teen_last_char(digits_list)}"
 
     elif digits_list[-5] == "0":
-        return f"{checking_mid_teen_last_char(digits_list)}"
+        return f"{arm_nums[digits_list[-5]]}"
     else:
         return f"{arm_nums[digits_list[-5] + '0']}" \
                f"{checking_mid_teen_last_char(digits_list)}" \
@@ -83,7 +83,7 @@ def check_teen_start(digits_list):
                f"{checking_start_teen_last_char(digits_list)}"
 
     elif digits_list[0] == "0":
-        return f"{checking_start_teen_last_char(digits_list)}"
+        return f"{arm_nums[digits_list[1]]}"
     else:
         return f"{arm_nums[digits_list[0] + '0']}" \
                f"{checking_start_teen_last_char(digits_list)}" \
@@ -129,11 +129,6 @@ def check_ten_thousand(digits_list):
 
 # checking hundred thousand numbers
 def check_hundred_thousand(digits_list):
-    # if digits_list[-4] == "1" and digits_list[-5] != "1":
-    #     return f"{check_hundred_start(digits_list)}" \
-    #            f"{arm_special_num[1]} " \
-    #            f"{check_ten_thousand(digits_list)}"
-
     return f"{check_hundred_start(digits_list)} " \
            f"{check_thousand(digits_list)}"
 
