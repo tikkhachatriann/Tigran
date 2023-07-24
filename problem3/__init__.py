@@ -33,40 +33,42 @@ def get_last_char(last_digit):
 
 # checking teen numbers from the end
 def check_teen_nums(digits):
-    if "10" < "".join(digits[0:]) < "20":
-        return f"{arm_nums[digits[0] + '0']}ն" \
-               f"{get_last_char(digits[1])}"
-    elif digits[0] == "0":
+
+    if digits[0] == "0":
         return f"{get_last_char(digits[1])}"
-    else:
-        return f"{arm_nums[digits[0] + '0']}" \
-               f"{get_last_char(digits[1])}"
+
+    separator = "ն" if digits[0] == "1" and digits[1] != "0" else ""
+
+    return f"{arm_nums[digits[0] + '0']}{separator}" \
+           f"{get_last_char(digits[1])}"
 
 
 # checking hundred numbers from the end
 def check_hundred_nums(digits):
+
     if digits[-3] == "0":
         return f"{check_teen_nums(digits[-2:])}"
-    elif digits[-3] == "1":
-        return f"{arm_nums['100']} {check_teen_nums(digits[-2:])}"
-    else:
-        return f"{arm_nums[digits[-3]]} {arm_nums['100']} " \
-               f"{check_teen_nums(digits[-2:])}"
+
+    separator = "" if digits[-3] == "1" else arm_nums[digits[0]]
+
+    return f"{separator} {arm_nums['100']} " \
+           f"{check_teen_nums(digits[-2:])}"
 
 
 # checking thousand numbers
 def check_thousand(digits_list):
-    if digits_list[-4] == "0" or len(digits_list) > 4:
-        return f"{arm_nums['1000']} {check_hundred_nums(digits_list[-3:])}"
 
-    else:
-        return f"{arm_nums[digits_list[-4]]} {arm_nums['1000']} " \
-               f"{check_hundred_nums(digits_list[-3:])}"
+    digit_number = "" if (digits_list[-4] == "0" or len(digits_list) > 4) \
+        else arm_nums[digits_list[0]]
+
+    return f"{digit_number} {arm_nums['1000']} " \
+           f"{check_hundred_nums(digits_list[-3:])}"
 
 
 # checking ten thousand numbers
 def check_ten_thousand(digits_list):
-    return f"{check_teen_nums(digits_list[-5:-3])} {check_thousand(digits_list)}"
+    return f"{check_teen_nums(digits_list[-5:-3])} " \
+           f"{check_thousand(digits_list)}"
 
 
 # checking hundred thousand numbers
@@ -77,14 +79,12 @@ def check_hundred_thousand(digits_list):
 
 # checking million numbers
 def check_million(digits_list):
-    first_char = arm_special_num[1] if digits_list[0] == "1" else \
-        arm_nums[digits_list[0]]
 
     if check_hundred_nums(digits_list[-6:-3]) == "":
-        return f"{first_char} {arm_nums['1000000']} " \
+        return f"{get_last_char(digits_list[0])} {arm_nums['1000000']} " \
                f"{check_hundred_nums(digits_list[-3:])}"
 
-    return f"{first_char} {arm_nums['1000000']} " \
+    return f"{get_last_char(digits_list[0])} {arm_nums['1000000']} " \
            f"{check_hundred_thousand(digits_list)}"
 
 
@@ -126,13 +126,14 @@ def get_final_result(digits_list):
 
 
 if __name__ == "__main__":
+    print("Press 0 if you want finish")
     while True:
         number = [x for x in input("input number").strip()]
         if number == ["0"]:
             print(arm_special_num[0])
             print("The loop was ended")
             break
-        print(get_final_result(number))
+        print("".join(get_final_result(number)))
 
 
 
