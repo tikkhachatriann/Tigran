@@ -128,12 +128,16 @@ def get_final_result(digits_list):
 if __name__ == "__main__":
     print("Press 0 if you want finish")
     while True:
-        number = [x for x in input("input number").strip()]
-        if number == ["0"]:
+        input_number = input("input number").strip()
+        number = [x for x in input_number]
+        if not input_number.isdigit():
+            print("You must be give number")
+        elif number == ["0"]:
             print(arm_special_num[0])
             print("The loop was ended")
             break
-        print("".join(get_final_result(number)))
+        else:
+            print("".join(get_final_result(number)))
 
 
 
