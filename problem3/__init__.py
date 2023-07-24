@@ -26,9 +26,6 @@ arm_nums = {
         '1000000': "միլիոն"
 }
 
-get_list_digits = lambda digit: [x for x in number]
-
-
 # checking last character of number
 def checking_last_char(digits_list):
     if digits_list[-1] == "1":
@@ -188,9 +185,10 @@ def get_final_result(digits_list):
 
 if __name__ == "__main__":
     while True:
-        number = input("input number")
-        print(get_final_result(get_list_digits(number)))
-        if number == "0":
+        number = [x for x in input("input number")]
+        if number == ["0"]:
             print(arm_special_num[0])
             print("The loop was ended")
             break
+        print(get_final_result(number))
+
