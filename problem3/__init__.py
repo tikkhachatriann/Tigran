@@ -27,10 +27,10 @@ arm_nums = {
 }
 
 
-def check_dig(number):
-    return [x for x in number]
+check_dig = lambda number:[x for x in number]
 
 
+# checking last character of number
 def checking_last_char(digits_list):
     if digits_list[-1] == "1":
         return arm_special_num[1]
@@ -38,13 +38,22 @@ def checking_last_char(digits_list):
         return arm_nums[digits_list[-1]]
 
 
-def checking_second_char(digits_list):
+# checking second character of teen`s start number
+def checking_second_of_mid_teen(digits_list):
+    if digits_list[-4] == "1":
+        return arm_special_num[1]
+    else:
+        return arm_nums[digits_list[-4]]
+
+
+def checking_second_of_start_teen(digits_list):
     if digits_list[1] == "1":
         return arm_special_num[1]
     else:
         return arm_nums[digits_list[1]]
 
 
+# checking teen numbers from the end
 def check_teen_end(digits_list):
     if "10" < "".join(digits_list[-2:]) < "20":
         return f"{arm_nums[digits_list[-2] + '0']}ն" \
@@ -56,18 +65,35 @@ def check_teen_end(digits_list):
                f"{checking_last_char(digits_list)}"
 
 
-def check_teen_start(digits_list):
+# checking teen numbers from the middle
+def check_teen_middle(digits_list):
     if "10" < "".join(digits_list[-5:-3]) < "20":
         return f"{arm_nums[digits_list[-5] + '0']}ն"\
-               f"{checking_second_char(digits_list)}"
+               f"{checking_second_of_mid_teen(digits_list)}"
 
     elif digits_list[-5] == "0":
-        return f"{arm_nums[digits_list[0]]}"
+        return f"{checking_second_of_mid_teen(digits_list)}"
     else:
         return f"{arm_nums[digits_list[-5] + '0']}" \
+               f"{checking_second_of_mid_teen(digits_list)}" \
 
 
 
+# checking teen numbers from the beginning
+def check_teen_start(digits_list):
+    if "10" < "".join(digits_list[:2]) < "20":
+        return f"{arm_nums[digits_list[0] + '0']}ն"\
+               f"{checking_second_of_start_teen(digits_list)}"
+
+    elif digits_list[0] == "0":
+        return f"{checking_second_of_start_teen(digits_list)}"
+    else:
+        return f"{arm_nums[digits_list[0] + '0']}" \
+               f"{checking_second_of_start_teen(digits_list)}" \
+
+
+
+# checking hundred numbers from the end
 def check_hundred_end(digits_list):
     if digits_list[-3] == "0":
         return f"{check_teen_end(digits_list)}"
@@ -78,60 +104,65 @@ def check_hundred_end(digits_list):
                f" {check_teen_end(digits_list)}"
 
 
+# checking numbers from the beginning
 def check_hundred_start(digits_list):
     if digits_list[-6] == "0":
-        return f"{check_teen_start(digits_list)}"
+        return f"{check_teen_middle(digits_list)}"
     elif digits_list[-6] == "1":
         return f"{arm_nums['100']}" \
-               f" {check_teen_start(digits_list)}"
+               f" {check_teen_middle(digits_list)}"
     else:
         return f"{arm_nums[digits_list[-6]]} {arm_nums['100']}" \
-               f" {check_teen_start(digits_list)}"
+               f" {check_teen_middle(digits_list)}"
 
 
-
+# checking thousand numbers
 def check_thousand(digits_list):
-    if digits_list[-4] == "0":
+    if digits_list[-4] == "0" or len(digits_list) > 4:
         return f"{arm_nums['1000']} {check_hundred_end(digits_list)}"
-    # elif digits_list[-4] == "1":
-    #     return f"{arm_nums['1000']}" \
-    #            f" {check_hundred_end(digits_list)}"
     else:
         return f"{arm_nums[digits_list[-4]]} {arm_nums['1000']}" \
-               f" {check_hundred_end(digits_list)}"
+               f"{check_hundred_end(digits_list)}"
 
 
+# checking ten thousand numbers
 def check_ten_thousand(digits_list):
-    #if digits_list[-5] == "1":
-    return f"{check_teen_start(digits_list)} {check_thousand(digits_list)}"
-    # return f"{arm_nums[digits_list[0]]}" \
-    #        f"{check_teen_start(digits_list)} {check_thousand(digits_list)}"
+    return f"{check_teen_middle(digits_list)} {check_thousand(digits_list)}"
 
 
+# checking hundred thousand numbers
 def check_hundred_thousand(digits_list):
-    if digits_list[-4] == "1" and digits_list[-5] != "1":
-        return f"{check_hundred_start(digits_list)}" \
-               f"{arm_special_num[1]} " \
-               f"{check_thousand(digits_list)}"
+    # if digits_list[-4] == "1" and digits_list[-5] != "1":
+    #     return f"{check_hundred_start(digits_list)}" \
+    #            f"{arm_special_num[1]} " \
+    #            f"{check_ten_thousand(digits_list)}"
 
     return f"{check_hundred_start(digits_list)} " \
            f"{check_thousand(digits_list)}"
 
 
+# checking million numbers
 def check_million(digits_list):
-    if digits_list[0] == "1":
-        return f"{arm_special_num[1]} {arm_nums['1000000']} "\
-               f"{check_hundred_start(digits_list) }"\
-               f"{check_thousand(digits_list)}"
-    return f"{arm_nums[digits_list[0]]} {arm_nums['1000000']} "\
-           f"{check_hundred_start(digits_list)}"\
-           f"{check_thousand(digits_list)}"
+    first_char = arm_special_num[1] if digits_list[0] == "1" else\
+        arm_nums[digits_list[0]]
+    return f"{first_char} {arm_nums['1000000']} "\
+           f"{check_hundred_thousand(digits_list)}"
 
 
+# checking ten millions numbers
+def check_ten_million(digits_list):
+    return f"{check_teen_start(digits_list)} {arm_nums['1000000']} " \
+           f"{check_hundred_thousand(digits_list)}"
+
+
+# getting result vor for a given number
 def get_final_result(digits_list):
     final_list = []
 
-    if len(digits_list) == 7:
+    if len(digits_list) == 8:
+        final_list.append(check_ten_million(digits_list))
+
+    elif len(digits_list) == 7:
         final_list.append(check_million(digits_list))
 
     elif len(digits_list) == 6:
@@ -141,7 +172,7 @@ def get_final_result(digits_list):
         final_list.append(check_ten_thousand(digits_list))
 
     elif len(digits_list) == 4:
-        final_list.append(f"{check_thousand(digits_list)}")
+        final_list.append(check_thousand(digits_list))
 
     elif len(digits_list) == 3:
         final_list.append(check_hundred_end(digits_list))
@@ -150,14 +181,19 @@ def get_final_result(digits_list):
         final_list.append(check_teen_end(digits_list))
 
     elif len(digits_list) == 1:
-        final_list.append(f"{checking_last_char(digits_list)}")
+        final_list.append(checking_last_char(digits_list))
 
     return final_list
 
 
 if __name__ == "__main__":
-    number = input("input number")
-    print(get_final_result(check_dig(number)))
+    while True:
+        number = input("input number")
+        print(get_final_result(check_dig(number)))
+        if number == "0":
+            print(arm_special_num[0])
+            print("The loop was ended")
+            break
 
 
 
