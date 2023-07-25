@@ -84,9 +84,9 @@ def check_hundred_nums(digits_list: list) -> str:
     if digits_list[-3] == "0":
         return f"{check_teen_nums(digits_list[-2:])}"
 
-    separator = "" if digits_list[-3] == "1" else arm_nums[digits_list[0]]
+    separator = "" if digits_list[-3] == "1" else f"{arm_nums[digits_list[0]]} "
 
-    return f"{separator} {arm_nums['100']} " \
+    return f"{separator}{arm_nums['100']} " \
            f"{check_teen_nums(digits_list[-2:])}"
 
 
@@ -105,9 +105,9 @@ def check_thousand(digits_list: list) -> str:
 
     """
     digit_number = "" if (digits_list[-4] == "0" or len(digits_list) > 4) \
-        else arm_nums[digits_list[0]]
+        else f"{arm_nums[digits_list[0]]} "
 
-    return f"{digit_number} {arm_nums['1000']} " \
+    return f"{digit_number}{arm_nums['1000']} " \
            f"{check_hundred_nums(digits_list[-3:])}"
 
 
@@ -205,7 +205,7 @@ def get_hundred_million(digits_list: list) -> str:
 
 
 # getting result vor for a given number
-def get_final_result(digits_list: list) -> list:
+def get_final_result(digits_list: list) -> str:
     """
     Get final result
 
@@ -215,73 +215,38 @@ def get_final_result(digits_list: list) -> list:
 
     Returns
     -------
-    list
+    str
 
     """
 
-    final_list = []
-    length = 0
-    for i in range(1, 10):
-        if i == len(digits_list):
-            length = i
-    match length:
+    match len(digits_list):
         case 1:
-            final_list.append(get_last_char(digits_list[-1]))
+            return get_last_char(digits_list[-1])
         case 2:
-            final_list.append(check_teen_nums(digits_list))
+            return check_teen_nums(digits_list)
         case 3:
-            final_list.append(check_hundred_nums(digits_list))
+            return check_hundred_nums(digits_list)
         case 4:
-            final_list.append(check_thousand(digits_list))
+            return check_thousand(digits_list)
         case 5:
-            final_list.append(get_ten_thousand(digits_list))
+            return get_ten_thousand(digits_list)
         case 6:
-            final_list.append(get_hundred_thousand(digits_list))
+            return get_hundred_thousand(digits_list)
         case 7:
-            final_list.append(check_million(digits_list))
+            return check_million(digits_list)
         case 8:
-            final_list.append(get_ten_million(digits_list))
+            return get_ten_million(digits_list)
         case 9:
-            final_list.append(get_hundred_million(digits_list))
-
-    return final_list
-    # if len(digits_list) == 9:
-    #     final_list.append(get_hundred_million(digits_list))
-    #
-    # elif len(digits_list) == 8:
-    #     final_list.append(get_ten_million(digits_list))
-    #
-    # elif len(digits_list) == 7:
-    #     final_list.append(check_million(digits_list))
-    #
-    # elif len(digits_list) == 6:
-    #     final_list.append(get_hundred_thousand(digits_list))
-    #
-    # elif len(digits_list) == 5:
-    #     final_list.append(get_ten_thousand(digits_list))
-    #
-    # elif len(digits_list) == 4:
-    #     final_list.append(check_thousand(digits_list))
-    #
-    # elif len(digits_list) == 3:
-    #     final_list.append(check_hundred_nums(digits_list))
-    #
-    # elif len(digits_list) == 2:
-    #     final_list.append(check_teen_nums(digits_list))
-    #
-    # elif len(digits_list) == 1:
-    #     final_list.append(get_last_char(digits_list[-1]))
-
-    # return final_list
+            return get_hundred_million(digits_list)
 
 
 if __name__ == "__main__":
     print("Press 0 if you want finish")
     while True:
-        input_number = input("input number").strip()
+        input_number = input("input number ").strip()
         number = [x for x in input_number]
         if not input_number.isdigit():
-            print("You must be give number")
+            print("Invalid input ")
         elif number == ["0"]:
             print(arm_special_num[0])
             print("The loop was ended")
