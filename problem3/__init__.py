@@ -79,13 +79,12 @@ def check_hundred_thousand(digits_list):
 
 # checking million numbers
 def check_million(digits_list):
+    start_million = f"{get_last_char(digits_list[0])} {arm_nums['1000000']} "
 
     if check_hundred_nums(digits_list[-6:-3]) == "":
-        return f"{get_last_char(digits_list[0])} {arm_nums['1000000']} " \
-               f"{check_hundred_nums(digits_list[-3:])}"
+        return f"{start_million} {check_hundred_nums(digits_list[-3:])}"
 
-    return f"{get_last_char(digits_list[0])} {arm_nums['1000000']} " \
-           f"{check_hundred_thousand(digits_list)}"
+    return f"{start_million}{check_hundred_thousand(digits_list)}"
 
 
 # checking ten millions numbers
