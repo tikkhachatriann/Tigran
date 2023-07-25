@@ -202,7 +202,6 @@ def get_hundred_million(digits_list: list) -> str:
     """
     return f"{check_hundred_nums(digits_list[:3])}" \
            f"{check_million(digits_list)[3:]}"
-           
 
 
 # getting result vor for a given number
