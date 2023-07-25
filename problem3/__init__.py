@@ -105,9 +105,9 @@ def check_thousand(digits_list: list) -> str:
 
     """
     digit_number = "" if (digits_list[-4] == "0" or len(digits_list) > 4) \
-        else f"{arm_nums[digits_list[0]]} "
+        else f"{arm_nums[digits_list[0]]}"
 
-    return f"{digit_number}{arm_nums['1000']} " \
+    return f"{digit_number} {arm_nums['1000']} " \
            f"{check_hundred_nums(digits_list[-3:])}"
 
 
@@ -200,8 +200,9 @@ def get_hundred_million(digits_list: list) -> str:
     str
 
     """
-    return f"{check_hundred_nums(digits_list[:3])} {arm_nums['1000000']} " \
-           f"{get_hundred_thousand(digits_list)}"
+    return f"{check_hundred_nums(digits_list[:3])}" \
+           f"{check_million(digits_list)[3:]}"
+           
 
 
 # getting result vor for a given number
