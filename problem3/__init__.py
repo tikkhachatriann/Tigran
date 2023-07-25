@@ -154,7 +154,9 @@ def check_million(digits_list: list) -> str:
     str
 
     """
-    start_million = f"{get_last_char(digits_list[0])} {arm_nums['1000000']} "
+    print(get_last_char(digits_list[0]))
+    start_million = f"{get_last_char(digits_list[0])} {arm_nums['1000000']} " \
+        if len(digits_list) < 7 else f"{arm_nums['1000000']} "
 
     if check_hundred_nums(digits_list[-6:-3]) == "":
         return f"{start_million} {check_hundred_nums(digits_list[-3:])}"
@@ -175,8 +177,9 @@ def get_ten_million(digits_list: list) -> str:
     str
 
     """
-    return f"{check_teen_nums(digits_list[-8:-6])} {arm_nums['1000000']} " \
-           f"{get_hundred_thousand(digits_list)}"
+    return f"{check_teen_nums(digits_list[-8:-6])} " \
+           f"{check_million(digits_list)}" \
+
 
 
 def get_hundred_million(digits_list: list) -> str:
@@ -192,8 +195,8 @@ def get_hundred_million(digits_list: list) -> str:
     str
 
     """
-    return f"{check_hundred_nums(digits_list[:3])}" \
-           f"{check_million(digits_list)[3:]}"
+    return f"{check_hundred_nums(digits_list[:3])} " \
+           f"{check_million(digits_list)}"
 
 
 def get_final_result(digits_list: list) -> str:
