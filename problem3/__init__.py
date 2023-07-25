@@ -66,13 +66,13 @@ def check_thousand(digits_list):
 
 
 # checking ten thousand numbers
-def check_ten_thousand(digits_list):
+def get_ten_thousand(digits_list):
     return f"{check_teen_nums(digits_list[-5:-3])} " \
            f"{check_thousand(digits_list)}"
 
 
 # checking hundred thousand numbers
-def check_hundred_thousand(digits_list):
+def get_hundred_thousand(digits_list):
     return f"{check_hundred_nums(digits_list[-6:-3])} " \
            f"{check_thousand(digits_list)}"
 
@@ -84,13 +84,17 @@ def check_million(digits_list):
     if check_hundred_nums(digits_list[-6:-3]) == "":
         return f"{start_million} {check_hundred_nums(digits_list[-3:])}"
 
-    return f"{start_million}{check_hundred_thousand(digits_list)}"
+    return f"{start_million}{get_hundred_thousand(digits_list)}"
 
 
 # checking ten millions numbers
-def check_ten_million(digits_list):
+def get_ten_million(digits_list):
     return f"{check_teen_nums(digits_list[-8:-6])} {arm_nums['1000000']} " \
-           f"{check_hundred_thousand(digits_list)}"
+           f"{get_hundred_thousand(digits_list)}"
+
+
+def check_hundred_million(digits_list):
+    return
 
 
 # getting result vor for a given number
@@ -98,16 +102,16 @@ def get_final_result(digits_list):
     final_list = []
 
     if len(digits_list) == 8:
-        final_list.append(check_ten_million(digits_list))
+        final_list.append(get_ten_million(digits_list))
 
     elif len(digits_list) == 7:
         final_list.append(check_million(digits_list))
 
     elif len(digits_list) == 6:
-        final_list.append(check_hundred_thousand(digits_list))
+        final_list.append(get_hundred_thousand(digits_list))
 
     elif len(digits_list) == 5:
-        final_list.append(check_ten_thousand(digits_list))
+        final_list.append(get_ten_thousand(digits_list))
 
     elif len(digits_list) == 4:
         final_list.append(check_thousand(digits_list))
