@@ -154,7 +154,6 @@ def check_million(digits_list: list) -> str:
     str
 
     """
-    print(get_last_char(digits_list[0]))
     start_million = f"{get_last_char(digits_list[0])} {arm_nums['1000000']} " \
         if len(digits_list) < 7 else f"{arm_nums['1000000']} "
 
