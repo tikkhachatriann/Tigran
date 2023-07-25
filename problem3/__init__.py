@@ -27,7 +27,6 @@ arm_nums = {
 }
 
 
-# checking last character of number
 def get_last_char(last_digit: str) -> str:
     """
     Get last char
@@ -44,7 +43,6 @@ def get_last_char(last_digit: str) -> str:
     return arm_special_num[1] if last_digit == "1" else arm_nums[last_digit]
 
 
-# checking teen numbers from the end
 def check_teen_nums(digits_list: list) -> str:
     """
     Check teen nums
@@ -67,7 +65,6 @@ def check_teen_nums(digits_list: list) -> str:
            f"{get_last_char(digits_list[1])}"
 
 
-# checking a hundred numbers from the end
 def check_hundred_nums(digits_list: list) -> str:
     """
     Check hundred nums
@@ -90,7 +87,6 @@ def check_hundred_nums(digits_list: list) -> str:
            f"{check_teen_nums(digits_list[-2:])}"
 
 
-# checking a thousand numbers
 def check_thousand(digits_list: list) -> str:
     """
     Check thousand
@@ -111,7 +107,6 @@ def check_thousand(digits_list: list) -> str:
            f"{check_hundred_nums(digits_list[-3:])}"
 
 
-# checking ten thousand numbers
 def get_ten_thousand(digits_list: list) -> str:
     """
     Get ten thousand
@@ -129,7 +124,6 @@ def get_ten_thousand(digits_list: list) -> str:
            f"{check_thousand(digits_list)}"
 
 
-# checking a hundred thousand numbers
 def get_hundred_thousand(digits_list: list) -> str:
     """
     Check hundred nums
@@ -147,7 +141,6 @@ def get_hundred_thousand(digits_list: list) -> str:
            f"{check_thousand(digits_list)}"
 
 
-# checking a million numbers
 def check_million(digits_list: list) -> str:
     """
     Check million
@@ -169,7 +162,6 @@ def check_million(digits_list: list) -> str:
     return f"{start_million}{get_hundred_thousand(digits_list)}"
 
 
-# checking ten millions numbers
 def get_ten_million(digits_list: list) -> str:
     """
     Check ten million
@@ -204,7 +196,6 @@ def get_hundred_million(digits_list: list) -> str:
            f"{check_million(digits_list)[3:]}"
 
 
-# getting result vor for a given number
 def get_final_result(digits_list: list) -> str:
     """
     Get final result
@@ -218,7 +209,6 @@ def get_final_result(digits_list: list) -> str:
     str
 
     """
-
     match len(digits_list):
         case 1:
             return get_last_char(digits_list[-1])
@@ -243,8 +233,9 @@ def get_final_result(digits_list: list) -> str:
 if __name__ == "__main__":
     print("Press 0 if you want finish")
     while True:
-        input_number = input("input number ").strip()
+        input_number = input("input number ".strip())
         number = [x for x in input_number]
+
         if not input_number.isdigit():
             print("Invalid input ")
         elif number == ["0"]:
