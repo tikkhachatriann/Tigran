@@ -93,15 +93,19 @@ def get_ten_million(digits_list):
            f"{get_hundred_thousand(digits_list)}"
 
 
-def check_hundred_million(digits_list):
-    return
+def get_hundred_million(digits_list):
+    return f"{check_hundred_nums(digits_list[:3])} {arm_nums['1000000']} " \
+           f"{get_hundred_thousand(digits_list)}"
 
 
 # getting result vor for a given number
 def get_final_result(digits_list):
     final_list = []
 
-    if len(digits_list) == 8:
+    if len(digits_list) == 9:
+        final_list.append(get_hundred_million(digits_list))
+
+    elif len(digits_list) == 8:
         final_list.append(get_ten_million(digits_list))
 
     elif len(digits_list) == 7:
