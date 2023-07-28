@@ -237,7 +237,8 @@ def get_final_result(digits_list: list) -> str:
 if __name__ == "__main__":
     print(
         "This program working maximum for 999.999.999 \n"
-        "Press 0 if you want finish")
+        "Press 0 if you want finish"
+    )
     while True:
         input_number = input("input number ".strip())
         number = [x for x in input_number]
