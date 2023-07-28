@@ -100,7 +100,7 @@ def check_thousand(digits_list: list) -> str:
     str
 
     """
-    digit_number = "" if (digits_list[-4] == "0" or len(digits_list) > 4) \
+    digit_number = "" if digits_list[-4] == "0" or len(digits_list) > 4 \
         else f"{arm_nums[digits_list[0]]}"
 
     return f"{digit_number} {arm_nums['1000']} " \
@@ -235,7 +235,9 @@ def get_final_result(digits_list: list) -> str:
 
 
 if __name__ == "__main__":
-    print("Press 0 if you want finish")
+    print(
+        "This program working maximum for 999.999.999 \n"
+        "Press 0 if you want finish")
     while True:
         input_number = input("input number ".strip())
         number = [x for x in input_number]
