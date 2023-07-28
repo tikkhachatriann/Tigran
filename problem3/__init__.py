@@ -230,6 +230,8 @@ def get_final_result(digits_list: list) -> str:
             return get_ten_million(digits_list)
         case 9:
             return get_hundred_million(digits_list)
+        case _:
+            return "invalid length"
 
 
 if __name__ == "__main__":
