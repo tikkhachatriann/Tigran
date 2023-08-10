@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events Calendar</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20;
+            padding: 0;
+            display:inline-table;
+            justify-content: left;
+            min-height: 100vh;
+            background-image:
+            url("{{ url_for('static', filename='week.webp') }}");
+            background-size : cover;
+            background-position : center;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(48, 30, 6, 0.853);
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 45px;
+            color: #d7862f;
+            margin-bottom: 100px;
+        }
+        h3{
+            color: #d7862f;
+        }
+        p {
+            padding: 22px;
+            color: #d7862f;
+            background-color: rgba(48, 30, 6, 0.853);
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        
+        .links {
+            margin-top: 30px;
+        }
+        .links a {
+            text-decoration: none;
+            color: #d7862f;
+            margin: 10px;
+            padding: 8px 16px;
+            border: 1px solid #d7862f;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .links a:hover {
+            background-color: #d7862f;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <h1>WEEKLY<br>VIBES</h1>
+    
+    <div class="events">
+        {% for event in events %}
+            <div class="event">
+                <h3>{{ event.date }}</h3>
+                <p>{{ event.week_day }} {{ event.dj_name }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>
