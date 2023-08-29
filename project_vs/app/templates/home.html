@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Home Page</title>
+    
+    <link rel="stylesheet" 
+            href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body class="home-background"
+            href="{{url_for('static', filename='home_image.jpg')}}">
+    <div class="home-container container">
+       
+        <h1>Welcome to Evn Cafe & Drink House</h1>
+       
+        <div class="links">
+            
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="https://www.instagram.com/evn.cafe/">Instagram</a>
+        
+        </div>
+    </div>
+</body>
+</html>
