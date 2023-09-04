@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events Calendar</title>
+    <link rel="stylesheet"
+         href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body class="events-background events"> 
+
+    <h1>WEEKLY<br>VIBES</h1>
+
+    <div class="events" id="event">
+        {% if events %}
+
+        {% for event in events %}
+            <div class="event">
+
+                <h3> {{ event[1] }} </h3>
+
+                <div style="display:flex">
+                    <p>{{ event[0] }}</p><p> {{ event[2] }} </p>
+                </div>
+
+                <button type="button" id= "bookButton" value="Book" 
+                    onclick="modalObj.openTimeModal('{{event[1]}}')">Book</button>
+            
+            </div>
+                
+        {% endfor %}
+        {% endif %}
+    </div> 
+<!-- 
+<div class="modal" id="eventModal" style = "display: none">
+    <div class="modal-content">
+        <div class="container">
+            <h2>Table Booking</h2>
+            
+            <div class="table-layout">
+                {% for table in tables %}
+                <form method="post" action="/events_calendar"></form>
+
+                <div class="table" >
+                    <p>Table {{ table.id }}</p>
+                    {% if not table.booked %}
+                    
+                    <input type="hidden" name="table_id" value="{{ table.id }}">
+
+                    <button type="submit" value="Book"  
+                    onclick="modalObj.openTimeModal()" >Book</button> 
+                    
+                    {% else %}
+                        <p class="booked">Booked</p>
+                    {% endif %}
+                        
+                </div>
+                </form>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+</div> -->
+
+<div class="modal" id="tableBookingModal" style = "display: none">
+    <div class="modal-content">
+        <div class="container">
+            <h1>Table Booking</h1>
+
+            <p class="error-message" id="error-message"></p>
+            
+            <p>Time: <input type="time" name="time" required></p>            
+            
+            <p>Number of Guests: <input type="number" 
+                name="guests" min="2" max="10" required></p>
+                        
+            <p>Special Requests: <textarea name="requests" rows="4"
+                cols="50"></textarea></p>
+            
+            <button type="button" id="bookTableButton" 
+                onclick="modalObj.bookTable()">Book Table</button>            
+            
+            <p id="bookingResult"></p>
+        </div>
+    </div>
+</div>
+
+<div class="error-message" id="bookingContainer"></div>
+
+
+<div class="booking-success-container " 
+    id="booking-success" style = "display: none">
+
+    <div class="links a-href">
+        <a href="{{ url_for('home') }}">Back Home</a>
+    </div>    
+</div>
+
+
+<script type="text/javascript" src="{{url_for('static', filename='walk.js')}}">
+</script>
+
+</body>
+</html>
+
