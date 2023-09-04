@@ -94,7 +94,6 @@ def get_booking_data():
         except ValueError as ex:
             response = {'success': False, 'message': str(ex)}
         
-        
         return response
         
                    
