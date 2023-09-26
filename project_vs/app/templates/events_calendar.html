@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Events Calendar</title>
+    <link rel="stylesheet"
+         href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body class="events-background events"> 
+
+    <h1>WEEKLY<br>VIBES</h1>
+
+    <li><a href="{{ url_for('logout') }}" class="logout-link">Logout</a></li>
+
+
+    <div class="events" id="event">
+        {% if events %}
+        
+        {% for event in events %}
+            <div class="event">
+                <h3> {{ event.date }} </h3>
+                
+                <div style="display:flex">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                    <p>{{ event.week_day }}</p> <p>{{ event.dj_name }}</p>
+                </div>
+
+                <button type="button" onclick=
+                    "modalManager.openReserveModal(
+                        '{{event.date}}', '{{event.id}}')">Book
+                </button>
+
+            </div>
+                
+        {% endfor %}
+        {% endif %}
+    </div> 
+
+    <div class="modal modal-content" id="reserveTable"></div>
+    <div class="modal" id="tableBookingModal"></div>
+    <div class="modal" id="bookingSuccess"></div>
+
+<script type="text/javascript" src="{{url_for('static', filename='modal.js')}}">
+    
+</script>
+  
+</body>
+</html>
+
