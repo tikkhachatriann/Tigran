@@ -3,9 +3,8 @@ import bcrypt
 
 from app.database import get_db, get_cursor
 
-    
-class UserController():
 
+class UserController:
     @staticmethod
     def hash_password(password: str) -> bytes:
         """
@@ -20,7 +19,7 @@ class UserController():
         bytes
 
         """
-        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
     @staticmethod
     def check_password(password: str, hashed_password: bytes) -> bool:
@@ -37,8 +36,8 @@ class UserController():
         bool
 
         """
-        return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
-            
+        return bcrypt.checkpw(password.encode("utf-8"), hashed_password)
+
     def is_valid_email(self, mail_address: str) -> bool:
         """
         Is valid email
@@ -52,9 +51,9 @@ class UserController():
         bool
 
         """
-        return re.match(r'^[\w\.-]+@[\w\.-]+$', mail_address)
+        return re.match(r"^[\w\.-]+@[\w\.-]+$", mail_address)
 
-    def is_valid_password(self, password: str) -> bool:   
+    def is_valid_password(self, password: str) -> bool:
         """
         Is valid email
 
@@ -67,12 +66,12 @@ class UserController():
         bool
 
         """
-        return re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$', password)
-     
+        return re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$", password)
+
     def get_user(self, user_name: str) -> tuple:
         """
-        Authenticate user
-        
+        Get user
+
         Parameters
         ----------
         user_name : str
@@ -83,11 +82,26 @@ class UserController():
 
         """
         cursor = get_cursor()
-        cursor.execute(
-            "SELECT * FROM USER WHERE username = ?",
-            (user_name,)
-        )
-        return cursor.fetchone()  
+        cursor.execute("SELECT * FROM USER WHERE username = ?", (user_name,))
+        return cursor.fetchone()
+
+    def validate_user(self, user_name: str, password: str) -> tuple:
+        """
+        Validate user
+
+        Parameters
+        ----------
+        user_name : str
+        password : str
+
+        Returns
+        -------
+        tuple
+
+        """
+        if user := self.get_user(user_name):
+            if self.check_password(password, user["password"]):
+                return user
 
     def register_user(self, user_data: dict):
         """
@@ -100,64 +114,41 @@ class UserController():
         """
 
         if not self.is_valid_email(user_data["mail"]):
-            raise ValueError("Invalid email address.Please enter valid email.")
+            raise ValueError("Invalid email address. Please enter valid email.")
 
         if not self.is_valid_password(user_data["password"]):
             raise ValueError(
-                    "Length: At least 8 characters\
-                    Both lowercase and uppercase letters\
-                    At least one digit"
-            ) 
+                "Length: At least 8 characters\
+                Both lowercase and uppercase letters\
+                At least one digit"
+            )
 
         if user_data["password"] != user_data["password2"]:
-           raise ValueError("The passwords do not match. Please try again.")
+            raise ValueError("The passwords do not match. Please try again.")
 
         if not (hashed_password := self.hash_password(user_data["password"])):
             raise ValueError("Username alredy exists. Replace your username")
-        
+
         if any(value.strip() == "" for value in user_data.values()):
             raise ValueError("Fields cannot be empty or contains whitespaces")
-        
+
         with get_db() as con:
             cursor = con.cursor()
             cursor.execute(
                 "INSERT INTO USER(name, surname, mail, username, password)\
-                VALUES(?, ?, ?, ?, ?)", (  
-                    user_data["name"], 
+                VALUES(?, ?, ?, ?, ?)",
+                (
+                    user_data["name"],
                     user_data["surname"],
-                    user_data["mail"], 
+                    user_data["mail"],
                     user_data["username"],
-                    hashed_password
-                )
+                    hashed_password,
+                ),
             )
             con.commit()
-               
+
 
 class BookingController:
-
-    @staticmethod
-    def get_events(event_id=None) -> tuple:
-        """
-        Get events
-        
-        Parameters
-        ----------
-        event_id : ioptional, int 
-
-        Returns
-        -------
-        tuple
-
-        """
-        with get_db() as con:
-            cursor = con.cursor()
-            if event_id is None:
-                cursor.execute("SELECT id, week_day, date, dj_name FROM EVENTS")
-                return cursor
-            else:
-                cursor.execute("SELECT * FROM EVENTS WHERE id = ?",(event_id,))
-                return cursor.fetchone()
-
     @staticmethod
     def get_tables() -> tuple:
         """
@@ -171,7 +162,30 @@ class BookingController:
         cursor = get_cursor()
         cursor.execute("SELECT * FROM RESERVES")
         return cursor
+    
+    @staticmethod
+    def get_events(event_id=None) -> tuple:
+        """
+        Get events
 
+        Parameters
+        ----------
+        event_id : ioptional, int
+
+        Returns
+        -------
+        tuple
+
+        """
+        with get_db() as con:
+            cursor = con.cursor()
+            if event_id is None:
+                cursor.execute("SELECT id, week_day, date, dj_name FROM EVENTS")
+                return cursor
+            else:
+                cursor.execute("SELECT * FROM EVENTS WHERE id = ?", (event_id,))
+                return cursor.fetchone()
+        
     def book_table(self, table_id: int, event_id: int):
         """
         Book table
@@ -182,26 +196,25 @@ class BookingController:
         event_id : int
 
         """
-        with get_db() as con: 
+        with get_db() as con:
             cursor = con.cursor()
             cursor.execute(
-                "SELECT table_id_list FROM EVENTS WHERE id = ?", 
-                (event_id,))
-            
+                "SELECT table_id_list FROM EVENTS WHERE id = ?",
+                (event_id,)
+            )
+
             current_list_str = cursor.fetchone()
 
-            if table_ids := current_list_str['table_id_list']:
-                new_list = table_ids.split(',')
+            if table_ids := current_list_str["table_id_list"]:
+                new_list = table_ids.split(",")
                 new_list.append(table_id)
             else:
                 new_list = [table_id]
 
-            updated_list_str = ','.join(set(new_list))
-            
+            updated_list_str = ",".join(set(new_list))
+
             cursor.execute(
                 "UPDATE EVENTS SET table_id_list = ? WHERE id = ?",
-                (updated_list_str, event_id)
+                (updated_list_str, event_id),
             )
             con.commit()
-            
-    
