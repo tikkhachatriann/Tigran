@@ -53,15 +53,13 @@ def login():
     password = request.form["password"]
     user_name = bleach.clean(user_name)
 
-    user_data = user_ctrl.get_user(user_name)
-    
-    if not (user_data and user_ctrl.check_password(password, user_data[5])):
+    if not (user := user_ctrl.validate_user(user_name, password)):
         return render_template(
             'login.html',
             error_message="*Invalid username or password.Please try again.",
             username=user_name
         )
-    user = User(user_data[0])
+    user = User(user["id"])
     login_user(user)
     
     if current_user.is_authenticated:
