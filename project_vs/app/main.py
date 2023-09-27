@@ -211,16 +211,18 @@ class BookingController:
         return table_id_list
 
 
-    def book_table(self, table_id: int, event_id: int):
+    def book_table(self, booking_data: dict):
         """
         Book table
 
         Parameters
         ----------
-        table_id : int
-        event_id : int
+        booking_data : dict
 
         """
+        table_id = booking_data["tableId"]
+        event_id = booking_data["eventId"]
+        
         with get_db() as con:
             cursor = con.cursor()
             cursor.execute(
