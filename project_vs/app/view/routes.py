@@ -83,22 +83,14 @@ def events_calendar():
         )
     
     
-@app.route('/get_reserve_modal/<event_id>')
-def get_modal_content(event_id):
+@app.route('/get_reserve_modal/<date>/<event_id>')
+def get_modal_content(date, event_id):
     booking_ctrl = BookingController()
-    event_data = booking_ctrl.get_events(event_id)
-
-    if event_data and event_data['table_id_list']:
-        table_id_list = [
-            int(id_str) for id_str in event_data['table_id_list'].split(',')
-        ]
-    else:
-        table_id_list = []
     return render_template(
             'reserve_tables.html',
             tables=booking_ctrl.get_tables(),
-            date=event_data["date"],
-            table_id_list=table_id_list
+            date=date,
+            table_id_list=booking_ctrl.get_list(event_id)
     )
 
 
