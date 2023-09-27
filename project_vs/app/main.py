@@ -5,6 +5,7 @@ from app.database import get_db, get_cursor
 
 
 class UserController:
+    
     @staticmethod
     def hash_password(password: str) -> bytes:
         """
@@ -186,7 +187,7 @@ class BookingController:
                 cursor.execute("SELECT * FROM EVENTS WHERE id = ?", (event_id,))
                 return cursor.fetchone()
     
-    def get_list(self, event_id: int) -> list:
+    def get_booked_tables(self, event_id: int) -> list:
         """
         Get list
 
