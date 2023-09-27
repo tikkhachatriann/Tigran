@@ -106,10 +106,7 @@ def get_time_modal_content(table_id):
 def get_booking_data():
     booking_data = request.args
    
-    table_id = booking_data["tableId"]
-    event_id = booking_data["eventId"]
-
-    BookingController().book_table(table_id, event_id)
+    BookingController().book_table(booking_data)
     send_email(booking_data)
     return render_template(
         "booking_success.html",
