@@ -170,7 +170,7 @@ class BookingController:
 
         Parameters
         ----------
-        event_id : ioptional, int
+        event_id : optional, int
 
         Returns
         -------
@@ -185,7 +185,32 @@ class BookingController:
             else:
                 cursor.execute("SELECT * FROM EVENTS WHERE id = ?", (event_id,))
                 return cursor.fetchone()
+    
+    def get_list(self, event_id: int) -> list:
+        """
+        Get list
+
+        Parameters
+        ----------
+        event_id : int
+
+        Returns
+        -------
+        list
+
+        """
+        event_data = self.get_events(event_id)
+
+        if event_data and event_data['table_id_list']:
+            table_id_list = [
+                int(id_str) for id_str in event_data['table_id_list'].split(',')
+            ]
+        else:
+            table_id_list = []
         
+        return table_id_list
+
+
     def book_table(self, table_id: int, event_id: int):
         """
         Book table
