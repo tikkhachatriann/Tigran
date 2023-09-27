@@ -90,7 +90,7 @@ def get_modal_content(date, event_id):
             'reserve_tables.html',
             tables=booking_ctrl.get_tables(),
             date=date,
-            table_id_list=booking_ctrl.get_list(event_id)
+            table_id_list=booking_ctrl.get_booked_tables(event_id)
     )
 
 
