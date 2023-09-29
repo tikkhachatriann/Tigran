@@ -1,0 +1,32 @@
+<div class="container">
+    <h2>Table Booking</h2>
+    <h3>Date: {{date}}</h3>
+    
+    <div class="table-layout" id="table_layout">
+        {% for table in tables %}
+            
+            <div class="table" id="table" >
+                <p>Table {{ table.id }}</p>
+                
+                {% if table.id not in table_id_list %}
+                    <input type="hidden" name="table_id" 
+                        value="{{ table.id }}">
+                    <button type="button"  onclick=
+                        "timeModal.openModal('{{table.id}}')">Book
+                    </button> 
+                
+                {% else %}
+                    <p class="booked">Booked</p>
+                {% endif %}
+            </div>
+        
+        {% endfor %} 
+    </div>
+
+<button type ="button" class="close-button"
+    onclick="reserveModal.close()">X</button>
+
+</div>
+
+    
+

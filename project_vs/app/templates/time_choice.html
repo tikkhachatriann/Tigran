@@ -1,0 +1,23 @@
+<div class="container">
+
+    <h1>Table Booking</h1>
+    <h3>Table number: {{tableId}}</h3>
+        
+    <p class="error-message" id="error-message" 
+        value="{{error_message}}"></p>
+    
+    <p>*Time <input type="time" min="19:00" step="1800" 
+        name="time" required></p> 
+    
+    <p>*Number of Guests <input type="number" 
+        name="guests" min="2" max="10" required></p>
+    
+    <p>Special Requests <textarea name="requests" rows="4"
+        cols="50"></textarea></p>
+    
+    <button type="button" id="bookTableButton" 
+        onclick="successModal.openModal()">Book Table</button> 
+    
+    <button type ="button" class="close-button"
+        onclick="timeModal.close()">X</button>
+</div>        
